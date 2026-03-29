@@ -25,7 +25,172 @@ if gpus:
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="Institutional Quant AI", layout="wide")
+st.set_page_config(page_title="Institutional Quant AI", layout="wide", initial_sidebar_state="expanded")
+
+# ---- CUSTOM CSS (GLASSMORPHISM & GRADIENTS) ----
+st.markdown("""
+<style>
+    /* Main Background Gradient */
+    .stApp {
+        background: linear-gradient(135deg, #0b132b, #1c2541, #3a506b);
+        color: #ffffff;
+    }
+    
+    /* Make top header transparent */
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+    }
+
+    /* Frosted Glass Sidebar */
+    [data-testid="stSidebar"] {
+        background: rgba(28, 37, 65, 0.4) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Metric Cards (Frosted Glass) */
+    [data-testid="stMetric"] {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    [data-testid="stMetric"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Primary Button Styling */
+    div.stButton > button {
+        background: linear-gradient(90deg, #3a506b, #1c2541);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 10px 24px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        width: 100%;
+    }
+    div.stButton > button:hover {
+        background: linear-gradient(90deg, #5bc0be, #3a506b);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 20px rgba(91, 192, 190, 0.4);
+        transform: translateY(-1px);
+    }
+
+    /* Status Box Styling */
+    [data-testid="stStatusWidget"] {
+        background: rgba(0, 0, 0, 0.2) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    /* Expander Styling */
+    .streamlit-expanderHeader {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+    }
+    
+    /* Text overrides for readability */
+    h1, h2, h3, p, span, div, label {
+        color: #e0e0e0;
+    }
+    
+    [data-testid="stMetricValue"] {
+        color: #ffffff !important;
+    }
+
+    /* =========================================
+       AGGRESSIVE INPUT & ARTIFACT FIXES
+       ========================================= */
+       
+    /* 1. Nuke ALL default focus outlines globally to kill the red square */
+    *:focus, *:focus-visible, *:focus-within {
+        outline: none !important;
+    }
+
+    /* 2. Strip background from parent wrappers */
+    .stSelectbox [data-baseweb="select"],
+    .stDateInput [data-baseweb="input"] {
+        background-color: transparent !important;
+    }
+
+    /* 3. Apply Gradient to inner box and enforce strict border radiuses */
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="input"] > div {
+        background: linear-gradient(90deg, #1c2541, #3a506b) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 8px !important;
+        box-shadow: none !important; 
+        transition: all 0.3s ease !important;
+    }
+
+    /* 4. Custom Teal Focus Ring (Overrides the red) */
+    div[data-baseweb="select"] > div:focus-within,
+    div[data-baseweb="input"] > div:focus-within {
+        border-color: #5bc0be !important;
+        box-shadow: 0 0 0 1px #5bc0be !important;
+    }
+
+    /* Hover effects */
+    div[data-baseweb="select"] > div:hover,
+    div[data-baseweb="input"] > div:hover {
+        background: linear-gradient(90deg, #2a3a5a, #4a6a8a) !important;
+        border: 1px solid rgba(91, 192, 190, 0.5) !important;
+    }
+
+    /* Ensure text inside inputs is white */
+    div[data-baseweb="select"] *,
+    div[data-baseweb="input"] input {
+        color: white !important;
+        background: transparent !important;
+    }
+
+    /* Dropdown Menus and Calendar Popovers */
+    div[data-baseweb="popover"] > div {
+        background-color: #1c2541 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 8px !important;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Selectbox Options Hover */
+    ul[role="listbox"] li:hover {
+        background-color: rgba(91, 192, 190, 0.3) !important;
+    }
+
+    /* Calendar Styling */
+    div[data-baseweb="calendar"] * {
+        color: white !important;
+        background-color: transparent !important;
+    }
+    
+    /* Calendar Days Hover */
+    div[data-baseweb="calendar"] div[role="button"]:hover {
+        background-color: rgba(91, 192, 190, 0.4) !important;
+        border-radius: 4px;
+    }
+    
+    /* Kill the red calendar selection and replace with Teal */
+    div[data-baseweb="calendar"] div[aria-selected="true"],
+    div[data-baseweb="calendar"] div[aria-selected="true"]:hover {
+        background-color: #5bc0be !important;
+        color: #0b132b !important;
+        font-weight: bold !important;
+        border-radius: 4px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Institutional Quant AI: Trend-Boosted Edition")
 
 st.markdown("""
@@ -282,16 +447,14 @@ if st.button("Launch Strategy"):
     win_rate = len(wins) / len(backtest_df) if len(backtest_df) > 0 else 0
     
     # ---- GENERAL ACCURACY METRIC ----
-    # Measures if the Prediction Sign matched the REALIZED Net Return Sign.
-    # This accounts for fees: If we predicted Up, but lost money due to fees, it counts as a Miss.
-    # We use a small epsilon for floating point safety.
     backtest_df['Realized_Correctness'] = np.sign(backtest_df['Predicted_Return']) == np.sign(backtest_df['Net_Return'])
-    
-    # Filter for days where we actually took a position (ignore cash days)
     active_days = backtest_df[backtest_df['Position'].abs() > 0.01]
     accuracy = active_days['Realized_Correctness'].mean() * 100
 
     st.divider()
+    
+    # Container for the frosted glass metrics
+    st.container()
     c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("Net Profit", f"{total_ret*100:.2f}%")
     c2.metric("Sharpe Ratio", f"{sharpe:.2f}")
@@ -299,10 +462,11 @@ if st.button("Launch Strategy"):
     c4.metric("Max Drawdown", f"{max_dd*100:.2f}%")
     c5.metric("Realized Accuracy", f"{accuracy:.1f}%", help="Did the strategy actually profit when it predicted a win?")
     
+    st.markdown("<br>", unsafe_allow_html=True)
     st.subheader("Performance (Net of Fees)")
     st.line_chart(backtest_df[['Cum_Strategy', 'Cum_Market']])
     
     with st.expander("See Trade Log"):
         st.dataframe(backtest_df[['Predicted_Return', 'Trend_Bullish', 'Position', 'Cost', 'Net_Return']].tail(100))
         csv = backtest_df.to_csv().encode('utf-8')
-        st.download_button("Download Data", csv, "backtest_data.csv", "text/csv") 
+        st.download_button("Download Data", csv, "backtest_data.csv", "text/csv")
