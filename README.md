@@ -49,8 +49,8 @@ Predictia inteligentei artificiale trece printr-un strat de inginerie financiara
 ---
 
 ## Instalare si Rulare (Local)
-git clone [https://github.com/username/numele-proiectului.git](https://github.com/username/numele-proiectului.git)
-cd numele-proiectului
+git clone https://github.com/xD0ri4nx/bot_investitiV2.git
+cd bot_invstiti
 pip install -r requirements.txt
 streamlit run app.py
 
