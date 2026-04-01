@@ -1,4 +1,4 @@
-# Institutional Quant AI: Trend-Boosted Edition
+# Predictie si sugestii de investitii
 
 Un sistem hibrid de tranzactionare cantitativa bazat pe Deep Learning (Bidirectional LSTM) si strategii institutionale de management al riscului. 
 
